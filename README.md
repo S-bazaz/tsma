@@ -1,5 +1,5 @@
-# mts_model
-for multivariate time series model.
+# tsma
+time series model analyses.
 This package provides tools to analyze these kind of models, such as: 
   - an adaptive dashboard for manual parameters exploration 
   - simple statistical analyses (transient, asymptotical) based on : Vandin et al. (2021)
