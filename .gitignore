@@ -4,6 +4,15 @@ bin-release/
 [Oo]bj/
 [Bb]in/
 
+# specific
+.ipynb_checkpoints/*
+__pycache__/*
+*.html
+*.png
+*.db
+*.csv
+models/threesector
+
 # Other files and folders
 .settings/
 
