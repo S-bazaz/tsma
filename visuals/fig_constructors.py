@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-functions used to help the construction of figures,
-using plotly and matplotlib 
-
+functions used to assist in the creation of figures using Plotly and Matplotlib
 """
 __author__ = ["Samuel Bazaz"]
 __credits__ = ["Samuel Bazaz"]

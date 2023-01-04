@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-functions used to creat a dashboard on a local server in order to visualize 
-a summary of a simulation with different sets of parameters
-
+functions used to create a dashboard on a local server,
+which allows for the visualization of a summary of a simulation with various sets of parameters.
 """
 __author__ = ["Samuel Bazaz"]
 __credits__ = ["Samuel Bazaz"]

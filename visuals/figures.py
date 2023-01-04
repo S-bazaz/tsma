@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 functions used to create figures,
-using plotly and matplotlib
+using plotly, seabborn, and networkx
 
 """
 __author__ = ["Samuel Bazaz"]
@@ -972,6 +972,7 @@ def distance_hist(df, dist_name: str) -> go.Figure:
 def phase_diag_pairplot(
     df_params2,
     clust_code: str,
+    size: int = 5,
     height: int = 2,
     aspect: int = 1,
     thr_low: float = 0.2,
@@ -983,10 +984,10 @@ def phase_diag_pairplot(
     palette: str = "Spectral",
 ) -> plt.Figure:
     """
-    Create a pairplot with the seaborn library with a density estimation.of a given variable 
-    on the diagonal for each cluster.
-    And a bivariate distributions by kernel density estimation (KDE) on the other plots.
-    The upper kde have a higher density threshold and thus show the main clusters.
+    Create a pairplot with the seaborn library with a density estimation of a given variable 
+    on the diagonal for each cluster. And a bivariate distributions 
+    by kernel density estimation (KDE) on the other plots.
+    The upper KDE has a higher density threshold and thus shows the main clusters only.
     
     Parameters
     ----------
@@ -1035,6 +1036,9 @@ def phase_diag_pairplot(
         sns.kdeplot, thresh=thr_upp, levels=15, color=".2", fill=True, alpha=alpha_upp
     )
     fig = pp.fig
+    # fig.update_layout(figsize=(size, size))
+    fig.set_size_inches(size, size)
+    fig.set_dpi(200)
     fig.subplots_adjust(top=0.93, wspace=0.3)
     fig.suptitle("Phase Diagram Paire Plots " + clust_code, fontsize=16)
     return fig

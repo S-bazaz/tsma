@@ -180,7 +180,7 @@ def batch_test(ouput, lst_thrs:list[float], b: int = 4, bs: int = 4)->bool:
     critical_values = [0.984, 0.827, 0.709, 0.591, 0.519]
     lst_sign = [1.0, 2.5, 5.0, 10.0, 15.0]
     stats = [ss.anderson(batch_means[:, i], dist="norm").statistic for i in range(16)]
-
+    
     stat_thrs = critical_values[rech_dycho_closest_inf(sign_thrs, lst_sign)]
     reject_normality = max(stats) > stat_thrs
 

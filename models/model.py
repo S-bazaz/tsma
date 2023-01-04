@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Generic model class that serves as baseline for the remaining implementations
-such as the three sector model
+such as the Gross model
 """
 __author__ = ["Karl Naumann-Woleske", "Samuel Jazayeri"]
 __credits__ = ["Karl Naumann-Woleske", "Samuel Jazayeri"]

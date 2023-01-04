@@ -134,7 +134,7 @@ def get_relaxation_time(
     b: int,
         number of batches,subdivisions cuted for the stationarity test
     bs0: int,
-        initial btach length
+        initial batch length
     n_batch: int,
         number of batches for the subdivision
     max_count: int,
@@ -222,7 +222,7 @@ def get_relaxation_time_agreg(
 #  asymptotical analysis  #
 ###########################
 
-def asymptotical_analysis(t_relax, mainv)->(float):
+def asymptotical_analysis(t_relax : int, mainv)->float:
     """
     Do the asymptotical_analysis: the mean after relaxation time
     is an estimation of the steady state values
@@ -239,10 +239,10 @@ def asymptotical_analysis(t_relax, mainv)->(float):
     mean : float,
 
     """
-    cut_mainv = mainv[t_relax:, :].copy()
-    return np.nanmean(cut_mainv, axis=(1))
+    cut_mainv = mainv.iloc[t_relax:, :].copy()
+    return cut_mainv.agg(np.nanmean)
 
-def asymptotical_analysis_agreg(t_relax, mainv)->(float):
+def asymptotical_analysis_agreg(t_relax : int, mainv)->float:
     """
     Do the asymptotical_analysis on the mean of the simulations
     

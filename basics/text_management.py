@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-functions manipulate strings : name conversions, title creation ...
+functions manipulate strings : name conversions, title creations ...
 
 """
 __author__ = ["Samuel Bazaz"]

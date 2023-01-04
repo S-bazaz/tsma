@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-functions used to manage multiple figures creation and saving
-
+functions used to manage the creation and saving of multiple figures
 """
 __author__ = ["Samuel Bazaz"]
 __credits__ = ["Samuel Bazaz"]

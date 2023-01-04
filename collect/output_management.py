@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-functions used to encode and decode parameters into databases, to store and manage simulation data
+This package includes functions for encoding and decoding parameters into databases,
+as well as storing and managing simulation data.
 
 """
 __author__ = ["Samuel Bazaz"]

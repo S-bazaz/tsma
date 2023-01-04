@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-core functions for clustering
+functions for clustering
 
 """
 __author__ = ["Samuel Bazaz"]
@@ -25,7 +25,7 @@ import seaborn as sns
 from tqdm import tqdm
 
 from tslearn.preprocessing import TimeSeriesScalerMeanVariance, TimeSeriesScalerMinMax
-from tslearn.utils import to_time_series, to_time_series_dataset
+from tslearn.utils import to_time_series_dataset
 from iisignature import sig
 
 from sklearn import cluster, mixture
@@ -59,6 +59,7 @@ from basics.text_management import (
     para_to_string,
     decode_label,
     get_nclust,
+    
 )
 from visuals.figures import my_heatmap, distance_hist
 
@@ -70,7 +71,6 @@ from visuals.figures import my_heatmap, distance_hist
 
 def get_data_for_clustering(
     m,
-    varnames0: list[str],
     nsim: int,
     lst_sim_ids: list[int] = [],
     sim_id0: int = 0,
@@ -197,12 +197,14 @@ def select_var_and_no_nan(
    outputs0: np.array
        Array of outputs.
    lst_var: Optional[List[int]], default []
-       List of indices of variables to select in the outputs. If not provided, all variables are selected.
+       List of indices of variables to select in the outputs.
+       If not provided, all variables are selected.
        
    Returns
    -------
    Tuple[List[str], np.array]
-       Tuple containing the list of selected variable names and the array of selected and cleaned outputs.
+       Tuple containing the list of selected variable names 
+       and the array of selected and cleaned outputs.
    """
     outputs = np.nan_to_num(outputs0.copy())
     if lst_var == []:
@@ -323,7 +325,7 @@ def get_signatures(norm_outputs: np.ndarray, depth: int = 2) -> np.ndarray:
     x_sign : np.ndarray
         Array of signatures with shape (nsim, length of signatures)
     """
-    t_end, nvar, nsim = np.shape(norm_outputs)
+    nvar, nsim = np.shape(norm_outputs)[1:]
     x_sign = np.zeros((nsim, get_length_sign(nvar, depth)))
     for i in range(nsim):
         x_sign[i, :] = sig(norm_outputs[:, :, i], depth)
@@ -390,7 +392,37 @@ def add_preproc(
 ##################################
 
 
-def cross_similarity_matrix(outputs, code_name, sim_ids=[], is_vectors=True, plot=True):
+def cross_similarity_matrix(
+    outputs: np.ndarray,
+    code_name: str,
+    sim_ids: list = [],
+    is_vectors: bool = True,
+    plot: bool = True,
+) -> pd.DataFrame:
+    """
+    Calculate the pairwise distance between rows of outputs.
+    
+    Parameters
+    ----------
+    outputs : np.ndarray
+        A 2-D array with `m` rows and `n` columns.
+    code_name : str
+        A string to be used in the plot title.
+    sim_ids : list, optional
+        A list with the IDs of the rows in `outputs`.
+        If not provided, the row indices will be used.
+    is_vectors : bool, optional
+        If True, the Euclidean distance will be calculated.
+        If False, the DTW distance will be calculated.
+    plot : bool, optional
+        If True, a heatmap of the distance matrix will be plotted.
+    
+    Returns
+    -------
+    pd.DataFrame
+        The distance matrix, with row and column labels.
+    """
+
     if is_vectors:
         mat = euclidean_distances(outputs)
     else:
@@ -407,7 +439,23 @@ def cross_similarity_matrix(outputs, code_name, sim_ids=[], is_vectors=True, plo
     return df
 
 
-def show_cross_similarities(preprocessing, df_params, plot_hist=True):
+def show_cross_similarities(
+    preprocessing: dict, df_params: pd.DataFrame, plot_hist: bool = True
+) -> None:
+    """
+    Show cross similarities of the given time series data.
+    
+    Parameters:
+    ----------
+    - preprocessing: a dictionary of preprocessed time series data
+
+    - df_params: a dataframe containing the sim_ids and the corresponding parameter values
+    - plot_hist: a boolean indicating whether to plot a histogram of the distances
+    
+    Returns:
+    -------
+    None
+    """
     for code_name, lst_preproc in preprocessing.items():
         metric_code = code_name.split("_")[0]
         sim_ids = lst_preproc[0]
@@ -482,7 +530,7 @@ def set_clust_algo(args_clust: dict[str, [list[str], int, float]]) -> dict:
             dct_algo[mod_name] = ward
         elif mod_name == "Agglomerative_Clustering":
 
-            def Agglo(x, p):
+            def agglo(x, p):
                 connectivity = kneighbors_graph(
                     x, n_neighbors=args_clust["n_neighbors"], include_self=False
                 )
@@ -494,7 +542,7 @@ def set_clust_algo(args_clust: dict[str, [list[str], int, float]]) -> dict:
                     connectivity=connectivity,
                 )
 
-            dct_algo[mod_name] = Agglo
+            dct_algo[mod_name] = agglo
         elif mod_name == "Spectral_Clustering":
             dct_algo[mod_name] = lambda x, p: cluster.SpectralClustering(
                 n_clusters=nclust, eigen_solver="arpack", affinity="nearest_neighbors",
@@ -720,8 +768,8 @@ def add_clusters(
             args_clust,
             session_name,
             dct_m,
-            f_algo=set_clust_algo,
-            f_para=m_to_algopara,
+            f_algo=f_algo,
+            f_para=f_para,
         )
 
 
@@ -789,7 +837,8 @@ def clusterings_to_df(clusterings: dict[str, list]) -> pd.DataFrame:
     Returns
     -------
     df_clustering: pd.DataFrame
-        DataFrame with columns 'name', 'model', 'res', 'clust_time', 'nclusters', and 'good_cluster'.
+        DataFrame with columns 'name', 'model', 'res', 'clust_time', 'nclusters',
+        and 'good_cluster'.
         The 'good_cluster' column indicates whether the clustering is considered valid or not.
     """
     df_clustering = pd.DataFrame(
@@ -848,17 +897,25 @@ def get_clustering_dfs(
     drop_col: list[str] = [],
 ) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     """
-    This function takes in preprocessing data, clustering data, and a DataFrame of parameters and returns 
-    three DataFrames: one of the cleaned parameters, one of the clustering metadata, and one of the cluster 
-    assignments for each simulation.
+    This function takes in preprocessing data, clustering data,
+    and a DataFrame of parameters and returns three DataFrames:
+        one of the cleaned parameters,
+        one of the clustering metadata,
+        one of the cluster assignments for each simulation.
     
     Parameters:
-    preprocessing (dict): A dictionary with keys as preprocessing codes and values as lists containing 
-                         the sim_id's, data, and target for each preprocessing.
-    clusterings (dict): A dictionary with keys as clustering names and values as lists containing the model, 
-                       cluster assignments, time taken, and number of clusters for each clustering.
-    df_params0 (pd.DataFrame): A DataFrame of the original simulation parameters.
-    drop_col (List[str]): A list of column names to drop from the parameter DataFrame.
+    preprocessing (dict):
+        A dictionary with keys as preprocessing codes and 
+        values as lists containing the sim_id's, data, 
+        and target for each preprocessing.
+    clusterings (dict):
+        A dictionary with keys as clustering names and 
+        values as lists containing the model, cluster assignments,
+        time taken, and number of clusters for each clustering.
+    df_params0 (pd.DataFrame): 
+        A DataFrame of the original simulation parameters.
+    drop_col (List[str]):
+        A list of column names to drop from the parameter DataFrame.
     
     Returns:
     Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]: 
@@ -1026,7 +1083,7 @@ def preselection(
     pd.DataFrame
         DataFrame with the results of the selected clusterings.
     """
-    add_scores(df_clustering, preprocessing, df_params, 0)
+    add_scores(df_clustering, preprocessing, df_params, time_coef)
     indexes = get_best_aux(
         df_clustering, "myscore", ninfo=3, nbest=nbest1, largest=True
     )
@@ -1047,8 +1104,9 @@ def get_clustered_params(
     df_params: pd.DataFrame, clusterings: dict, preprocessing: dict, clust_code: str,
 ) -> pd.DataFrame:
     """
-    Return a copy of `df_params` with an additional column 'cluster' that reflects the clusters obtained
-    from the clustering model identified by `clust_code`.
+    Return a copy of `df_params` with an additional column 'cluster'
+    that reflects the clusters obtained from the clustering model
+    identified by `clust_code`.
 
     Parameters
     ----------
@@ -1137,20 +1195,19 @@ def get_best_vars_4_proj(
     id_best_proj = []
     if nvar > ncol:
         return df_params, cols
-    else:
-        rank = 0
-        count = 0
-        while count < nvar:
-            v = sorted_coordinates[rank]
-            rank += 1
-            i, j = v // ncol, v % ncol
-            if i not in id_best_proj:
-                id_best_proj.append(i)
+    rank = 0
+    count = 0
+    while count < nvar:
+        v = sorted_coordinates[rank]
+        rank += 1
+        i, j = v // ncol, v % ncol
+        if i not in id_best_proj:
+            id_best_proj.append(i)
+            count += 1
+        if count < nvar:
+            if j not in id_best_proj:
+                id_best_proj.append(j)
                 count += 1
-            if count < nvar:
-                if j not in id_best_proj:
-                    id_best_proj.append(j)
-                    count += 1
     return df_params, ["sim_id"] + list(np.array(cols)[id_best_proj]) + ["cluster"]
 
 
@@ -1166,14 +1223,17 @@ def get_df_clusters2(df_clusters: pd.DataFrame) -> pd.DataFrame:
     Parameters
     ----------
     df_clusters: pd.DataFrame
-        DataFrame with cluster assignments, where each column corresponds to a different clustering method and
-        each row corresponds to a simulation. The entries are integers indicating the cluster assignment for that
+        DataFrame with cluster assignments, where 
+        each column corresponds to a different clustering method and
+        each row corresponds to a simulation.
+        The entries are integers indicating the cluster assignment for that
         simulation.
 
     Returns
     -------
     df_clusters2: pd.DataFrame
-        DataFrame with one row for each cluster assignment, with the following columns:
+        DataFrame with one row for each cluster assignment,
+        with the following columns:
         'cluster_id': str
             Unique identifier for the cluster.
         'ordercode': int
@@ -1282,12 +1342,16 @@ def get_jaccard_dfs(
     
     Parameters:
     - df_clusters2: DataFrame containing information about the clusters.
-    - heatmap: Boolean flag indicating whether to show a heatmap of the Jaccard coefficients.
+    - heatmap: Boolean flag indicating whether to show a heatmap 
+      of the Jaccard coefficients.
     - size: Integer indicating the size of the heatmap figure.
     
     Returns:
-    A tuple of two DataFrames: the first one contains the Jaccard coefficients between different clusters, the second
-    one contains the Jaccard distances between different clusters.
+    A tuple of two DataFrames: 
+        the first one contains the Jaccard coefficients
+        between different clusters,
+        the second one contains the Jaccard distances
+        between different clusters.
     """
     n = len(df_clusters2)
     mat = -1 * np.ones((n, n))
@@ -1319,7 +1383,8 @@ def jacc_net(df_jaccard: pd.DataFrame) -> nx.Graph:
         nx.Graph: Graph created from the Jaccard coefficient matrix..
     """
     net = nx.from_numpy_matrix(df_jaccard.values)
-    mapping = {i: code for i, code in enumerate(df_jaccard.index)}
+    mapping = dict(enumerate(df_jaccard.index))
+    #{i: code for i, code in enumerate(df_jaccard.index)}
     net = nx.relabel_nodes(net, mapping, copy=False)
     return net
 

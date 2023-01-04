@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-functions used for data collection : parameters exploration, statistical analyses with auto-saving ...
+These functions allow for the exploration of parameters through statistical analyses,
+ with the option for automatic saving
 
 """
 __author__ = ["Samuel Bazaz"]
