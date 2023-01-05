@@ -42,26 +42,25 @@ from tslearn.metrics import cdist_dtw
 #  importations  #
 ##################
 
-path = os.path.dirname(os.getcwd())
-sys.path.append(path)
+root_dir = os.path.dirname(os.path.dirname(__file__))
+sys.path.append(root_dir)
 
-from basics.transfers import add_seeds_to_list, sep, join
+from tsma.basics.transfers import add_seeds_to_list, sep, join
 
-from collect.output_management import (
+from tsma.collect.output_management import (
     get_save_path,
     query_nparameters,
     query_parameters_specific,
     query_simulations,
     load_temp_outputs,
 )
-from basics.text_management import (
+from tsma.basics.text_management import (
     get_cluster_codes_and_label,
     para_to_string,
     decode_label,
     get_nclust,
-    
 )
-from visuals.figures import my_heatmap, distance_hist
+from tsma.visuals.figures import my_heatmap, distance_hist
 
 
 ######################
@@ -1384,7 +1383,7 @@ def jacc_net(df_jaccard: pd.DataFrame) -> nx.Graph:
     """
     net = nx.from_numpy_matrix(df_jaccard.values)
     mapping = dict(enumerate(df_jaccard.index))
-    #{i: code for i, code in enumerate(df_jaccard.index)}
+    # {i: code for i, code in enumerate(df_jaccard.index)}
     net = nx.relabel_nodes(net, mapping, copy=False)
     return net
 

@@ -25,20 +25,29 @@ import scipy.stats as ss
 #  importations #
 #################
 
-path = os.path.dirname(os.getcwd())
-sys.path.append(path)
+root_dir = os.path.dirname(os.path.dirname(__file__))
+sys.path.append(root_dir)
 
-from basics.transfers import update_dct_from_list, update_dct_from_dct
-from basics.text_management import encode, decode
-from collect.output_management import get_save_path
-from collect.iterators import nsim_mproc
-from visuals.fig_management import save_transient, transient_default
+from tsma.basics.transfers import update_dct_from_list, update_dct_from_dct
+from tsma.basics.text_management import encode, decode
+from tsma.collect.output_management import get_save_path
+from tsma.collect.iterators import nsim_mproc
+from tsma.visuals.fig_management import save_transient, transient_default
 
 ##########################
 #  exploration functions #
 ##########################
 
-def get_nset(m_ref, nvar: int, nsim: int = 1, ndays: int = 0, nhours: int = 0, nmin: int = 0, ns: int = 10) -> int:
+
+def get_nset(
+    m_ref,
+    nvar: int,
+    nsim: int = 1,
+    ndays: int = 0,
+    nhours: int = 0,
+    nmin: int = 0,
+    ns: int = 10,
+) -> int:
     """ Compute one or several standard simulations in order to get the maximum number of sets of parameters 
     that one can simulate in a given amount of time
     
@@ -91,7 +100,10 @@ def get_nset(m_ref, nvar: int, nsim: int = 1, ndays: int = 0, nhours: int = 0, n
         dt = t2 - t1
         return int(tot_time / dt)
 
-def mat_para(nset: int, lst_bounds: list[list[float]], scramble: bool = True) -> np.array:
+
+def mat_para(
+    nset: int, lst_bounds: list[list[float]], scramble: bool = True
+) -> np.array:
     """
     Compute a parameters exploration, according to a given number of sets that one wants to test,
     and ranges to explore for every parameters.
@@ -120,9 +132,11 @@ def mat_para(nset: int, lst_bounds: list[list[float]], scramble: bool = True) ->
     f = lambda x: a + (b - a) * x
     return f(normalized_mat)
 
+
 ####################
 #  data collection #
 ####################
+
 
 def oneset_collect(
     model,
@@ -137,10 +151,10 @@ def oneset_collect(
     save_fig: bool = True,
     fig_format: str = "png",
     dct_groups: dict = {},
-    sign:float=0.1,
-    ncol:int=3,
-    nskip:int=1,
-    ncol_para:int=3,
+    sign: float = 0.1,
+    ncol: int = 3,
+    nskip: int = 1,
+    ncol_para: int = 3,
     f_save=save_transient,
     f_fig=transient_default,
 ) -> np.array:
@@ -235,6 +249,7 @@ def oneset_collect(
             f_fig=f_fig,
         )
     return outputs
+
 
 def para_exploration(
     model: type,
@@ -336,7 +351,7 @@ def para_exploration(
         parameters, hyper_parameters, initial_values = decode(
             update_dct_from_dct(params, dct_para), m_ref.agent_ids
         )
-        
+
         outputs = oneset_collect(
             model,
             parameters,
@@ -355,5 +370,5 @@ def para_exploration(
             nskip,
             ncol_para,
             f_save,
-            f_fig
+            f_fig,
         )

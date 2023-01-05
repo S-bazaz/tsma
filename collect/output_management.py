@@ -20,7 +20,6 @@ import pandas as pd
 import numpy as np
 from tqdm import tqdm
 
-
 #############################
 #  path and SQL connection  #
 #############################
@@ -443,11 +442,13 @@ def delete_simulation(sim_id: str, model):
 
 
 ###############################
-#  multi-simulations queries  # 
+#  multi-simulations queries  #
 ###############################
 
 
-def query_nparameters(model, nsim: int, sim_id0:int=0, step:int=1, t_end:int=500) -> pd.DataFrame():
+def query_nparameters(
+    model, nsim: int, sim_id0: int = 0, step: int = 1, t_end: int = 500
+) -> pd.DataFrame():
     """
     Return a dataframe of `nsim` sets of parameters
     starting from `sim_id0` with a step of `step` and `t_end` time period.
@@ -480,7 +481,9 @@ def query_nparameters(model, nsim: int, sim_id0:int=0, step:int=1, t_end:int=500
     return df
 
 
-def query_parameters_specific(model, sim_ids:list[int], t_end:int=500) -> pd.DataFrame():
+def query_parameters_specific(
+    model, sim_ids: list[int], t_end: int = 500
+) -> pd.DataFrame():
     """Retrieve specific sets of model parameters from the parameters database.
     
     Parameters
@@ -509,7 +512,7 @@ def query_parameters_specific(model, sim_ids:list[int], t_end:int=500) -> pd.Dat
     return pd.concat(tuple(lst_df))
 
 
-def query_simulations(model, sim_ids:list[int]) -> np.array:
+def query_simulations(model, sim_ids: list[int]) -> np.array:
     """
     Retrieve the simulation outputs for the given simulation IDs and model.
     

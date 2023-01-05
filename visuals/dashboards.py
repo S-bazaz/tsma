@@ -36,19 +36,19 @@ from jupyter_dash import JupyterDash
 #  Importation  #
 #################
 
-path = os.path.dirname(os.getcwd())
-sys.path.append(path)
+root_dir = os.path.dirname(os.path.dirname(__file__))
+sys.path.append(root_dir)
 
-from basics.transfers import position_inputs, numerical_sub_dict
-from basics.text_management import (
+from tsma.basics.transfers import position_inputs, numerical_sub_dict
+from tsma.basics.text_management import (
     encode,
     decode,
     gross_f_latex,
     dict_to_html,
     list_to_lines,
 )
-from collect.output_management import get_save_path
-from visuals.fig_management import save_fig, adapted_mos_default, okun_phillips_f_img
+from tsma.collect.output_management import get_save_path
+from tsma.visuals.fig_management import save_fig, adapted_mos_default, okun_phillips_f_img
 
 
 #########################

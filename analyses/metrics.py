@@ -22,11 +22,11 @@ import pandas as pd
 #  importations #
 #################
 
-path = os.path.dirname(os.getcwd())
-sys.path.append(path)
+root_dir = os.path.dirname(os.path.dirname(__file__))
+sys.path.append(root_dir)
 
-from visuals.figures import my_heatmap
-from analyses.clustering import (
+from tsma.visuals.figures import my_heatmap
+from tsma.analyses.clustering import (
     drop_divergences,
     normalized_time_series,
     get_signatures,

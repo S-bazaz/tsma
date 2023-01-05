@@ -24,15 +24,14 @@ from multiprocessing import Pool, cpu_count
 #  Importation  #
 #################
 
-path = os.path.dirname(os.getcwd())
-sys.path.append(path)
+root_dir = os.path.dirname(os.path.dirname(__file__))
+sys.path.append(root_dir)
 
-from collect.output_management import get_max_id
+from tsma.collect.output_management import get_max_id
 
 ######################
 #  Simple iterators  #
 ######################
-
 
 def nsimulate(
     m,

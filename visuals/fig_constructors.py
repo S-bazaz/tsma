@@ -22,13 +22,6 @@ import networkx as nx
 
 from plotly.subplots import make_subplots
 
-#################
-#  Importation  #
-#################
-
-path = os.path.dirname(os.getcwd())
-sys.path.append(path)
-
 ###########################
 #  Mosaique Constructors  #
 ###########################

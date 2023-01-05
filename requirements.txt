@@ -1,0 +1,15 @@
+dash==2.6.1
+dash_bootstrap_components==1.2.1
+iisignature==0.24
+jupyter_dash==0.4.2
+matplotlib==3.5.1
+networkx==2.8.8
+numpy==1.21.5
+pandas==1.4.3
+plotly==5.9.0
+scikit_learn==1.2.0
+scipy==1.7.3
+seaborn==0.11.2
+statsmodels==0.13.2
+tqdm==4.64.0
+tslearn==0.5.2

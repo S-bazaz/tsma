@@ -24,10 +24,10 @@ import numpy as np
 #  Importation  #
 #################
 
-path = os.path.dirname(os.getcwd())
-sys.path.append(path)
+root_dir = os.path.dirname(os.path.dirname(__file__))
+sys.path.append(root_dir)
 
-from visuals.figures import (
+from tsma.visuals.figures import (
     f_line_gross,
     adapted_mosaique,
     philips_okun_curves,
@@ -43,14 +43,14 @@ from visuals.figures import (
     net_shell,
 )
 
-from basics.text_management import (
+from tsma.basics.text_management import (
     dict_to_html,
     list_to_lines,
     get_clust_families,
     family_to_figname,
     get_nclust,
 )
-from analyses.clustering import get_faux_clust_ts
+from tsma.analyses.clustering import get_faux_clust_ts
 
 #####################
 #  saves and query  #
@@ -467,6 +467,7 @@ def save_cluster_dendrogram(
 #################################
 #  clustering networks savings  #
 #################################
+
 
 def save_cluster_netfigs(
     net: any,

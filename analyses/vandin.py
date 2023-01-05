@@ -20,11 +20,11 @@ import numpy as np
 #  importations #
 #################
 
-path = os.path.dirname(os.getcwd())
-sys.path.append(path)
+root_dir = os.path.dirname(os.path.dirname(__file__))
+sys.path.append(root_dir)
 
-from analyses.statistics import get_mean_and_var, iid_ci_width
-from collect.iterators import nsimulate, add_simulate, nsim_mproc
+from tsma.analyses.statistics import get_mean_and_var, iid_ci_width
+from tsma.collect.iterators import nsimulate, add_simulate, nsim_mproc
 
 #######################
 # transient analysis  #

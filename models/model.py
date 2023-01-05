@@ -22,12 +22,12 @@ import pandas as pd
 #  Importation  #
 #################
 
-path = os.path.dirname(os.getcwd())
-sys.path.append(path)
+root_dir = os.path.dirname(os.path.dirname(__file__))
+sys.path.append(root_dir)
 
-from basics.text_management import encode
+from tsma.basics.text_management import encode
 
-from collect.output_management import (
+from tsma.collect.output_management import (
     initialize_outputs,
     get_save_path,
     get_id_parameters,

@@ -22,9 +22,10 @@ from numbers import Number
 #  Importation  #
 #################
 
-path = os.path.dirname(os.getcwd())
-sys.path.append(path)
-from basics.transfers import sep, join, list_to_dict, decompose_mainname
+root_dir = os.path.dirname(os.path.dirname(__file__))
+sys.path.append(root_dir)
+
+from tsma.basics.transfers import sep, join, list_to_dict, decompose_mainname
 
 ############
 #  Pathes  #
@@ -402,7 +403,7 @@ def add_index_and_exp(core: str, index: str, exponent: str):
         
     """
     core = core.replace("$", "").replace(" ", "")
-    # Add the index and exponent to the formula and 
+    # Add the index and exponent to the formula and
     # enclose it in dollar signs to make it a latex formula
     res = "$" + core + "_{" + f"{index}" + "}^{" + f"{exponent}" + "}$"
     return res

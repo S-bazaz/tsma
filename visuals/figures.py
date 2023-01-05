@@ -32,12 +32,14 @@ from sklearn.metrics import r2_score
 #  Importation  #
 #################
 
-path = os.path.dirname(os.getcwd())
-sys.path.append(path)
+root_dir = os.path.dirname(os.path.dirname(__file__))
+sys.path.append(root_dir)
 
-from basics.transfers import auto_dct_groups
-from basics.text_management import name_to_rgb
-from visuals.fig_constructors import (
+from tsma.basics.transfers import auto_dct_groups
+
+from tsma.basics.text_management import name_to_rgb
+
+from tsma.visuals.fig_constructors import (
     add_trace_mos,
     add_traces_mos,
     construct_mosaique_1sim,
@@ -47,7 +49,7 @@ from visuals.fig_constructors import (
     construct_adaptmos,
     cluster_netfig,
 )
-from analyses.vandin import transient_analysis
+from tsma.analyses.vandin import transient_analysis
 
 # pip install -U kaleido
 pio.renderers.default = "browser"
