@@ -48,8 +48,10 @@ To learn more about signature transform see Adeline Fermanian's thesis of (2021)
 ![image](https://github.com/S-bazaz/tsma/assets/108877488/52f52609-ad79-4b35-8004-556f44e35d35)
 
     - comparison of clusters
+    
+![image](https://github.com/S-bazaz/tsma/assets/108877488/ad1f4c84-b1f1-4a3b-a463-471dbd774b05)
 
-![image](https://github.com/S-bazaz/tsma/assets/108877488/c3267313-1476-4e7c-a619-41dafca050d4)
+
 
 ### basics
 
