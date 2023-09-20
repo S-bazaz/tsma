@@ -18,6 +18,7 @@ To learn more about signature transform see Adeline Fermanian's thesis of (2021)
 
 - **model** : model class that serves as baseline
 - **gross2022** : implementation of Gross's model of 2022
+![image](https://github.com/S-bazaz/tsma/assets/108877488/b64f0174-f149-4af8-9eae-25d9d9a03f68)
 
 ### collect
  
@@ -31,6 +32,7 @@ To learn more about signature transform see Adeline Fermanian's thesis of (2021)
 - **figures** : creates figures using Plotly, Seaborn, and Networkx
 - **fig_management** : manages the creation and saving of multiple figures
 - **dashboards** : for creating a dashboard on a local server, which allows for the visualization of a summary of a simulation with various sets of parameters.
+![image](https://github.com/S-bazaz/tsma/assets/108877488/4bb7676d-b4d0-41ff-b952-81a0a5fe83ec)
 
 ### analyses
 
@@ -42,6 +44,7 @@ To learn more about signature transform see Adeline Fermanian's thesis of (2021)
     - clustering scoring and selection
     - phase diagram visualization ( parameters space projection of clustering results )
     - comparison of clusters
+![image](https://github.com/S-bazaz/tsma/assets/108877488/52f52609-ad79-4b35-8004-556f44e35d35)
 
 ### basics
 
